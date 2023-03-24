@@ -30,11 +30,35 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FRotator MyRotation = GetComponentRotation();
-	FString MyRotationString = MyRotation.ToString();
-	UE_LOG(LogTemp, Display, TEXT("MyRotation: %s"), *MyRotationString);
+	// FRotator MyRotation = GetComponentRotation();
+	// FString MyRotationString = MyRotation.ToString();
+	// UE_LOG(LogTemp, Display, TEXT("MyRotation: %s"), *MyRotationString);
+	//
+	// float Time = GetWorld()->TimeSeconds;
+	// UE_LOG(LogTemp, Display, TEXT("Time: %f"), Time);
 
-	float Time = GetWorld()->TimeSeconds;
-	UE_LOG(LogTemp, Display, TEXT("Time: %f"), Time);
+	FVector Start = GetComponentLocation();
+	FVector End = Start + GetForwardVector() * MaxGrabDistance;
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 0.f, 0, 10.f);
+
+	float Damage;
+	if (HasDamage(Damage))
+	{
+		PrintDamage(Damage);
+	}
+	// float& DamageRef = Damage;
+	// DamageRef = 10;
+	//UE_LOG(LogTemp, Display, TEXT("Original Damage: %f"), Damage);
 }
 
+void UGrabber::PrintDamage(const float& Damage)
+{
+	//Damage = 2;
+	UE_LOG(LogTemp, Display, TEXT("Damage: %f"), Damage);
+}
+
+bool UGrabber::HasDamage(float& OutDamage)
+{
+	OutDamage = 10;
+	return true;
+}
